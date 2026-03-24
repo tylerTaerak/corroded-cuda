@@ -1,0 +1,10 @@
+[package]
+name = "kernels"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+cuda_std = { git = "https://github.com/rust-gpu/rust-cuda", rev = "c83adae4f4397e556b4667af0d258221c135033d" }
+
+[lib]
+crate-type = ["cdylib", "rlib"]
