@@ -4,12 +4,20 @@ This is a small collection of CUDA kernels written in the Rust programming langu
 It utilizes the (`rust-cuda`)[https://github.com/Rust-GPU/rust-cuda/tree/main] repository's crates
 to allow kernels to be created end-to-end in Rust.
 
-Currently, the project has followed the guide in the aforementioned `rust-cuda` repository, so
-it only has a simple vector sum kernel.
-
 There is also some rudimentary Digital Signal Processing found here. This includes some kernels
 written for sinusoidal signal generation, as well as a CPU-driven version to compare GPU algorithm
-speeds to. There is also a Low-Pass Filter implementation (that doesn't seem to quite work yet...)
+speeds to. There is also a Low-Pass Filter implementation that runs on the generated signal.
+I recommend playing around with the various parameters to see how they affect the resulting signals,
+filtered and unfiltered.
+
+The figures below use a generated signal with frequency bands at 440 Hz, 880 Hz, 1000 Hz, 2000 Hz; a sampling rate
+of 5000 Hz, and a sample count of 512. The cutoff frequency is at 500 Hz, so only the 440 Hz band remains after filtering.
+
+![Fig. 1 - Generated Signal Before Filtering](./images/before_low_pass.png)
+
+---
+
+![Fig. 2 - Generated Signal After Filtering](./images/after_low_pass)
 
 ## Dependencies
 
@@ -26,6 +34,9 @@ The only step to get the environment running is to run this script:
 
 This will launch you into a new docker container after building it with the correct dependencies. All that's left to
 do is run `cargo run`, and the rest should happen automatically.
+
+This project uses crates from the `rust-cuda` repository, as well as the `rustfft` and `plotters` crates, which are used
+for calculating and reporting data for the Fast Fourier Transform algorithm to process signal frequency bands.
 
 ## Kernels
 

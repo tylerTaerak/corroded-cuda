@@ -67,6 +67,8 @@ fn plot_signal(signal: &[f32], sample_rate: usize, filename: &str) -> Result<(),
 
     root.present()?;
 
+    println!("Plot saved at {:?}", filename);
+
     Ok(())
 }
 
@@ -161,15 +163,17 @@ fn main() -> Result<(), Box<dyn Error>>
     plot_signal(&shared_signal, sample_freq as usize, "before_low_pass.png")?;
 
     // --- BEGIN FFT LOW PASS FILTER --- //
-    let freq_cutoff = 500; // Hz
 
     let mut buffer : Vec<Complex<f32>> = shared_signal.iter().map(|&s| Complex { re: s, im: 0.0 }).collect();
+
+    let start_fft = SystemTime::now().duration_since(UNIX_EPOCH).unwrap();
 
     let mut planner = FftPlanner::new();
     let fft = planner.plan_fft_forward(sample_count);
 
     fft.process(&mut buffer);
 
+    let freq_cutoff = 500; // Hz - cut off the 1000 and 2000 Hz bands from the original signal
     let cutoff = (freq_cutoff * sample_count) / sample_freq as usize;
 
     // cut out all frequencies greater than the cutoff
@@ -184,7 +188,7 @@ fn main() -> Result<(), Box<dyn Error>>
             freq = sample_count - i;
         }
 
-        if freq > freq_cutoff
+        if freq > cutoff
         {
             buffer[i] = Complex{ re: 0.0, im: 0.0 };
         }
@@ -199,6 +203,10 @@ fn main() -> Result<(), Box<dyn Error>>
         b.re /= sample_count as f32;
         b.im /= sample_count as f32;
     }
+
+    let end_fft = SystemTime::now().duration_since(UNIX_EPOCH).unwrap();
+
+    println!("\n\nFFT-based Low Pass Filter took {:?}\n\n", (end_fft - start_fft));
 
     let final_signal : Vec<f32> = buffer.iter().map(|&c| c.re).collect();
 
