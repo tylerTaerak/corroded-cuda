@@ -6,6 +6,8 @@ edition = "2024"
 [dependencies]
 kernels = { path = "kernels" }
 cust = { git = "https://github.com/rust-gpu/rust-cuda", rev = "c83adae4f4397e556b4667af0d258221c135033d" }
+rustfft = "6.4.1"
+plotters = "0.3.7"
 
 [build-dependencies]
 cuda_builder = { git = "https://github.com/rust-gpu/rust-cuda", rev = "c83adae4f4397e556b4667af0d258221c135033d", features = ["rustc_codegen_nvvm"] }
