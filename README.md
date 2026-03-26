@@ -17,7 +17,7 @@ of 5000 Hz, and a sample count of 512. The cutoff frequency is at 500 Hz, so onl
 
 ---
 
-![Fig. 2 - Generated Signal After Filtering](./images/after_low_pass)
+![Fig. 2 - Generated Signal After Filtering](./images/after_low_pass.png)
 
 ## Dependencies
 
